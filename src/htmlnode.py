@@ -17,4 +17,29 @@ class HTMLNode:
 
     def __repr__(self):
         return f"Tag: {self.tag}\nValue: {self.value}\nProps:{self.props_to_html}"
+
+
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children, props = None):
+        super().__init__(tag = tag, children = children, props = props)
+
+    def to_html(self):
+        if self.tag is None:
+            raise ValueError("Tag is missing.")
+        if self.children is None:
+            raise ValueError("Children are missing.")
+        return f'<{self.tag}>{''.join(map(lambda c: c.to_html(), self.children))}</{self.tag}>'
+
+
+class LeafNode(HTMLNode):
+    def __init__(self, tag, value, props = None):
+        super().__init__(tag = tag, value = value, props = props)
+
+    def to_html(self):
+        if self.value is None:
+            raise ValueError()
+
+        if self.tag is None:
+            return self.value 
         
+        return f'<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>' 

@@ -1,7 +1,7 @@
 
 import unittest
 
-from leafnode import LeafNode 
+from htmlnode import LeafNode 
 
 
 class TestLeafNodes(unittest.TestCase):
