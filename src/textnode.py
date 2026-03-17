@@ -1,10 +1,11 @@
 
 from enum import Enum 
 from htmlnode import LeafNode
+import re 
 
 
 class TextType(Enum):
-    PLAIN = "plain"
+    TEXT = "text"
     BOLD = "bold"
     ITALIC = "italic"
     CODE = "code"
@@ -21,15 +22,15 @@ class TextNode:
         return (self.text == other.text) and (self.text_type == other.text_type) and (self.url == other.url)
 
     def __repr__(self):
-        return f"TextNode({self.text}, {self.text_type}, {self.url})"
-
+        return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
+    
 
 def text_node_to_html_node(text_node):
     text = text_node.text 
     tag = None 
     props = None 
     match text_node.text_type:
-        case TextType.PLAIN:
+        case TextType.TEXT:
             tag = None
         case TextType.BOLD:
             tag = 'b'
