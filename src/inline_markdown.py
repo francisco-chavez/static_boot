@@ -34,17 +34,21 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
 
 def split_nodes_image(old_nodes):
-    return split_nodes(old_nodes, extract_markdown_images, TextType.IMAGE, lambda x: f"![{x[0]}]({x[1]})")
+    return split_nodes(old_nodes, lambda text: re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text), TextType.IMAGE, lambda x: f"![{x[0]}]({x[1]})")
 
 def split_nodes_link(old_nodes):
-    return split_nodes(old_nodes, extract_markdown_links, TextType.LINK, lambda x: f"[{x[0]}]({x[1]})")
+    return split_nodes(old_nodes, lambda text: re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text), TextType.LINK, lambda x: f"[{x[0]}]({x[1]})")
 
 
+# These two aren't needed anymore, but they are covered by unit testing. Also, I 
+# don't remember if I came up with them or if they were part of an assignment.
+# - FCT
 def extract_markdown_images(text):
    return re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
 
 def extract_markdown_links(text):
     return re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+
 
 def split_nodes(old_nodes, extraction_function, text_type, combination_function):
     new_nodes = []
